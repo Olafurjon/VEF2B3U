@@ -6,6 +6,7 @@
 
 </head>
 <body>
+
 <h2>Object Pizza Dagsins</h2>
 <div id="object"> 
 
@@ -14,6 +15,35 @@
 <h2>Function Pizzur á matseðli</h2>
 <div id="function">
 </div>
+<hr>
+<!--
+2.	0.5%
+Hvað  er prototype í	JavaScript?	Hvernig	tengjast prototype öðrum prototype?	Útskýrðu og	
+komdu með dæmi.
+SVAR: 
+Öll Objects í JavaScript eru með prototype, Prototypeið er líka höndlað sem Object, Objectinn erfa functionin og propertyin sín frá prototype-inu
+
+Ef þú býrð til object hvort sem það er gert með object literal eða með new Object() erfir það frá prototype sem heitir object, Object sem eru gerð með new Date() erfa frá Date.prototype.
+
+Object.prototype er efst á fæðu eða prototype keðjunni
+
+öll object í javascript t.d. Date, Array, Function erfa frá Object.prototype
+
+
+3.	0.5%	
+Hvað gerir prototype hér íkóðanum? Afhverju	ekki að hafa getIsbn fallið	í Book smiðnum (e.constructor)?	
+function Book(isbn) {
+this.isbn = isbn;
+}
+Book.prototype.getIsbn = function () {
+return "Isbn is " + this.isbn;
+};
+var book = new Book("901-3865");
+
+SVAR: 
+Hérna er verið að setja getIsbn functionið inní book prototypeið þannig að öll instance af book geti notað say, og að gera þetta svona í staðinn fyrir að hafa þetta bara þarna inní sparar fullt af plássi í minninu, þar sem að ef þetta er gert hinseginn þá verður þettta function til fyrir hvert instance af Book, í staðinn fyrir að öll instanceinn eru bara að nota sama prototypeið
+-->
+
 <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>
