@@ -1,0 +1,18 @@
+body
+{
+	background-image: url("../img/maxresdefault.jpg");
+	background-size: cover;
+
+}
+.section1
+{
+	text-align: center;
+}
+
+#listi
+{
+	margin-left:40%;
+	margin-right: 40%;
+	background-color: Gray;
+	border:2px solid;
+}
