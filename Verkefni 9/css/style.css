@@ -1,0 +1,40 @@
+body
+{
+	align-items: center;
+	background-color:blue;
+}
+
+h2
+{
+	text-align: center;
+}
+.quiz
+{
+text-align: center;
+margin-top: 10%;
+border: 1px solid;
+
+background-color: lime;
+
+}
+li
+{
+	list-style-type: none;
+}
+.ABCD
+{
+	position: relative;
+	display: inline-block;
+	margin: 2px;
+	border: 1px solid;
+	padding: 20px;
+	text-align: center;
+}
+.rett
+{
+	background-color: cyan;
+}
+.rangt
+{
+	background-color: red;
+}
