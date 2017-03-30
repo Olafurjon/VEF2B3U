@@ -16,7 +16,7 @@ $.ajax({
   'url': 'http://apis.is/petrol',
   'type': 'GET',
   'dataType': 'json',
-  async: false,
+   async: false,
   'success': function(response) {
     console.log(response);
 
@@ -37,10 +37,18 @@ console.log("ajax");
 var me 
       function initMap() {
         console.log("mapinit");
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 64.133333, lng: -21.933333},
-          zoom: 8
+
+        var map = new google.maps.Map(document.getElementById('map'), {zoom: 8});
+        var geocoder = new google.maps.Geocoder;
+        geocoder.geocode({'address': 'Iceland'}, function(results, status) {
+          if (status === 'OK') {
+            map.setCenter(results[0].geometry.location);
+          } else {
+            window.alert('Geocode was not successful for the following reason: ' +
+                status);
+          }
         });
+
          var infoWindow = new google.maps.InfoWindow({map: map});
 
          // Try HTML5 geolocation.
@@ -50,10 +58,94 @@ var me
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
+            me = pos;
+            var bounds = new google.maps.LatLngBounds;
+        var markersArray = [];
+        var destarray = [];
+        var i = 0;
+
+       while (i < 60){
+        	var destination = {lat: arraystodvar[i+10]['geox'], lng: arraystodvar[i+10]['geoy']};
+        	destarray.push(destination);
+
+       
+
+        var destinationIcon = 'https://chart.googleapis.com/chart?' +
+            'chst=d_map_pin_letter&chld=A|FF0000|000000';
+        var originIcon = 'https://chart.googleapis.com/chart?' +
+            'chst=d_map_pin_letter&chld=B|FFFF00|000000';
+
+        var service = new google.maps.DistanceMatrixService;
+        service.getDistanceMatrix({
+          origins: [me],
+          destinations: [destination],
+          travelMode: 'DRIVING',
+          unitSystem: google.maps.UnitSystem.METRIC,
+          avoidHighways: false,
+          avoidTolls: false
+        }, function(response, status) {
+          console.log(response.rows[0].elements[0].distance.value);
+          if(response.rows[0].elements[0].distance.value > 8000 )
+          {
+          i--;
+          var check = "nope";
+          }
+          if (status !== 'OK') {
+            alert('Error was: ' + status);
+          } 
+          if(check == "nope")
+          {}
+          else {
+            var originList = response.originAddresses;
+            console.log(response.rows.elements);
+            var destinationList = response.destinationAddresses;
+            var outputDiv = document.getElementById('output');
+            outputDiv.innerHTML += '';
+            deleteMarkers(markersArray);
+
+            var showGeocodedAddressOnMap = function(asDestination) {
+              var icon = asDestination ? destinationIcon : originIcon;
+              return function(results, status) {
+                if (status === 'OK') {
+                  map.fitBounds(bounds.extend(results[0].geometry.location));
+    
+                } else {
+                  alert('Geocode was not successful due to: ' + status);
+                }
+              };
+            };
+
+            for (var i = 0; i < originList.length; i++) {
+              var results = response.rows[i].elements;
+              geocoder.geocode({'address': originList[i]},
+                  showGeocodedAddressOnMap(false));
+
+              for (var j = 0; j < results.length; j++) {
+                geocoder.geocode({'address': destinationList[j]},
+                    showGeocodedAddressOnMap(false));
+                outputDiv.innerHTML += originList[i] + ' to ' + destinationList[j] +
+                    ': ' + results[j].distance.text + ' in ' +
+                    results[j].duration.text + '<br>';
+              }
+            }
+          }
+        });
+        i++;
+    }
+      
+
+      function deleteMarkers(markersArray) {
+        for (var i = 0; i < markersArray.length; i++) {
+          markersArray[i].setMap(null);
+        }
+        markersArray = []; 
+
+      }
           var marker = new google.maps.Marker({
           position: pos,
           map: map,
-          title: 'Þú!'});
+          title: 'Þú!'
+      });
 
             infoWindow.setPosition(pos);
             infoWindow.setContent('Staðsetning fundin');
@@ -69,17 +161,17 @@ var me
         for (var i = 0; i < arraystodvar.length; i++) {
         var x = arraystodvar[i]['geox']
         var y = arraystodvar[i]['geoy']
+        var titill = arraystodvar[i]['name']
         var image = 'img/fillingstation.png';
         var beachMarker = new google.maps.Marker({
           position: {lat: x, lng: y },
           map: map,
-          icon: image
+          icon: image,
+          title: titill
         });
         };
-
-  
-
-      }
+        
+  }
 
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
