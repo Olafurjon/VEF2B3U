@@ -33,7 +33,7 @@ console.log("ajax");
 });
 
 
-
+var destarray = [];
 var me 
       function initMap() {
         console.log("mapinit");
@@ -61,11 +61,11 @@ var me
             me = pos;
             var bounds = new google.maps.LatLngBounds;
         var markersArray = [];
-        var destarray = [];
+        
         var i = 0;
 
        while (i < 60){
-        	var destination = {lat: arraystodvar[i+10]['geox'], lng: arraystodvar[i+10]['geoy']};
+        	var destination = {name: arraystodvar[i+10]['name'], lat: arraystodvar[i+10]['geox'], lng: arraystodvar[i+10]['geoy']};
         	destarray.push(destination);
 
        
@@ -89,6 +89,7 @@ var me
           {
           i--;
           var check = "nope";
+          destarray.pop()
           }
           if (status !== 'OK') {
             alert('Error was: ' + status);
@@ -114,6 +115,21 @@ var me
                 }
               };
             };
+
+                   console.log(destarray);
+        for (var i = 0; i < destarray.length; i++) {
+         console.log(destarray[i])
+        var x = destarray[i]['lat']
+        var y = destarray[i]['lng']
+        var titill = destarray[i]['name']
+        var image = 'img/fillingstation.png';
+        var beachMarker = new google.maps.Marker({
+          position: {lat: x, lng: y },
+          map: map,
+          icon: image,
+          title: titill
+        });
+        };
 
             for (var i = 0; i < originList.length; i++) {
               var results = response.rows[i].elements;
@@ -158,18 +174,7 @@ var me
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
-        for (var i = 0; i < arraystodvar.length; i++) {
-        var x = arraystodvar[i]['geox']
-        var y = arraystodvar[i]['geoy']
-        var titill = arraystodvar[i]['name']
-        var image = 'img/fillingstation.png';
-        var beachMarker = new google.maps.Marker({
-          position: {lat: x, lng: y },
-          map: map,
-          icon: image,
-          title: titill
-        });
-        };
+ 
         
   }
 
