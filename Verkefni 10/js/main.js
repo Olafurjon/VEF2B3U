@@ -1,4 +1,4 @@
-
+var destarray = [];
 function logstod(name,company,bensin,diesel,geox,geoy)
 {
 	this.name = name;
@@ -33,7 +33,7 @@ console.log("ajax");
 });
 
 
-var destarray = [];
+
 var me 
       function initMap() {
         console.log("mapinit");
@@ -61,12 +61,12 @@ var me
             me = pos;
             var bounds = new google.maps.LatLngBounds;
         var markersArray = [];
-        
+        var z = 0;
         var i = 0;
 
-       while (i < 60){
+       while (i < 10){
         	var destination = {name: arraystodvar[i+10]['name'], lat: arraystodvar[i+10]['geox'], lng: arraystodvar[i+10]['geoy']};
-        	destarray.push(destination);
+        	
 
        
 
@@ -88,8 +88,9 @@ var me
           if(response.rows[0].elements[0].distance.value > 8000 )
           {
           i--;
-          var check = "nope";
           destarray.pop()
+          var check = "nope";
+          
           }
           if (status !== 'OK') {
             alert('Error was: ' + status);
@@ -97,6 +98,9 @@ var me
           if(check == "nope")
           {}
           else {
+          	console.log(response);
+         destarray.push(destination);
+        
             var originList = response.originAddresses;
             console.log(response.rows.elements);
             var destinationList = response.destinationAddresses;
@@ -116,20 +120,8 @@ var me
               };
             };
 
-                   console.log(destarray);
-        for (var i = 0; i < destarray.length; i++) {
-         console.log(destarray[i])
-        var x = destarray[i]['lat']
-        var y = destarray[i]['lng']
-        var titill = destarray[i]['name']
-        var image = 'img/fillingstation.png';
-        var beachMarker = new google.maps.Marker({
-          position: {lat: x, lng: y },
-          map: map,
-          icon: image,
-          title: titill
-        });
-        };
+
+
 
             for (var i = 0; i < originList.length; i++) {
               var results = response.rows[i].elements;
@@ -146,8 +138,23 @@ var me
             }
           }
         });
+
         i++;
+        z++;
+                var x = destination['lat'];
+        var y = destination['lng'];
+        var image = 'img/fillingstation.png';
+        var beachMarker = new google.maps.Marker({
+          position: {lat: x, lng: y },
+          map: map,
+          icon: image,
+        });
+
+      
     }
+
+
+      	
       
 
       function deleteMarkers(markersArray) {
